@@ -1,23 +1,39 @@
 import logo from './logo.svg';
+import {useState, useEffect} from 'react';
+import axios from 'axios';
 import './App.css';
 
 function App() {
+  const [photo, setPhoto] = useState('')
+  const [url, setUrl] = useState('')
+  const handleSubmit = (e)=> {
+    e.preventDefault()
+    console.log('submit')
+    let form_data = new FormData();
+    form_data.append('image', photo, 'image');
+    axios.post('http://localhost:8000/images', form_data, {
+        headers: {
+          'content-type': 'multipart/form-data'
+        }
+      })
+        .then(res => {
+          console.log(res.data);
+          setUrl(res.data.url)
+        })
+        .catch(err => console.log(err))
+    };
+  
   return (
     <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+      <form onSubmit={handleSubmit}>
+        <input type='file' onChange={(event)=> {
+          setPhoto(event.target.files[0])
+        }} />
+        <button type='submit'>Submit</button>
+      </form>
+      <p>Hey there</p>
+      { url ? <img style={{minWidth:'200px'}} src={`${url}`} alt='go cloudinary' />: 'no image yet'}
+      <p>Yup</p>
     </div>
   );
 }

@@ -4,6 +4,7 @@ import axios from 'axios';
 import './App.css';
 const REACT_APP_API_URL = process.env.REACT_APP_API_URL
 console.log(REACT_APP_API_URL)
+console.log(process.env.REACT_APP_HELLO)
 
 function App() {
   const [photo, setPhoto] = useState('')

@@ -2,6 +2,8 @@ import logo from './logo.svg';
 import {useState, useEffect} from 'react';
 import axios from 'axios';
 import './App.css';
+const REACT_APP_API_URL = process.env.REACT_APP_API_URL
+console.log(REACT_APP_API_URL)
 
 function App() {
   const [photo, setPhoto] = useState('')
@@ -12,7 +14,7 @@ function App() {
     console.log('submit')
     let form_data = new FormData();
     form_data.append('image', photo, 'image');
-    axios.post('http://localhost:8000/images', form_data, {
+    axios.post(`${REACT_APP_API_URL}/images`, form_data, {
         headers: {
           'content-type': 'multipart/form-data'
         }
@@ -40,7 +42,7 @@ function App() {
       }
       */
     }
-    fetch('http://localhost:8000/images/multer', options)
+    fetch(`${REACT_APP_API_URL}/images/multer`, options)
         .then(res => res.json())
         .then(data => {
           console.log(data);
